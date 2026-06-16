@@ -4,7 +4,25 @@ from datetime import datetime, timedelta
 
 # Create a global MongoClient instance to reuse connections
 client = MongoClient(settings.MONGO_URI)
-db = client.get_default_database()
+
+def get_db():
+    try:
+        return client.get_default_database()
+    except Exception:
+        # Fallback to parsing from URI or using "test"
+        from urllib.parse import urlparse
+        try:
+            parsed = urlparse(settings.MONGO_URI)
+            db_name = parsed.path.strip("/")
+            if "?" in db_name:
+                db_name = db_name.split("?")[0]
+            if not db_name:
+                db_name = "test"
+            return client[db_name]
+        except Exception:
+            return client["test"]
+
+db = get_db()
 
 def get_product_transactions(product_id: str, days: int = 90) -> list:
     """

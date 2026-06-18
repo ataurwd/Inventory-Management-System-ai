@@ -2,7 +2,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI(
-    title="SmartStock AI Service",
+    title="SellFlow AI Service",
     description="Prophet-based demand forecasting microservice",
     version="1.0.0",
 )

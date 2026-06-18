@@ -9,7 +9,7 @@ router = APIRouter()
 @router.post("/predict", response_model=ForecastResponse)
 async def predict(request: ForecastRequest):
     try:
-        # Fetch historical transactions
+        # Fetch historical
         transactions = get_product_transactions(request.product_id, days=request.days_history)
         
         # We need at least 2 data points for Prophet
